@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Portal Cultural{% endblock %}</title>
+
+    <!-- Bootstrap local (sin CDN), tal como se pide en el instrumento -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- ===== Barra de navegación ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'principal' %}">Portal Cultural</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal"
+                    aria-expanded="false" aria-label="Mostrar navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarPrincipal">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'principal' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_peliculas' %}">Películas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listado_peliculas' %}">Catálogo de películas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_libros' %}">Libros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listado_libros' %}">Catálogo de libros</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mis_reservas' %}">Mis reservas</a>
+                    </li>
+                    {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">Administración</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item d-flex align-items-center ms-lg-2">
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">¿Eres nuevo? ¡Inicia sesión!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'registro' %}">Registrarse</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== Encabezado ===== -->
+    <header class="encabezado-principal text-white text-center py-5">
+        <div class="container">
+            {% block encabezado %}
+                <h1>Portal Cultural</h1>
+                <p class="lead mb-0">Catálogo informativo de películas y libros</p>
+            {% endblock %}
+        </div>
+    </header>
+
+    <!-- ===== Contenido de cada página ===== -->
+    <main class="container my-5 flex-grow-1">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <!-- ===== Pie de página ===== -->
+    <footer class="bg-dark text-light text-center py-4 mt-auto">
+        <div class="container">
+            <p class="mb-1">Evaluación Sumativa #2 &middot; Programación Back End (TI3041)</p>
+            <p class="mb-0 small text-secondary">INACAP &middot; Sede La Serena &middot; Primavera 2026</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

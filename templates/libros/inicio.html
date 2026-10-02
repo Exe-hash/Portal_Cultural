@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Libros &middot; Portal Cultural{% endblock %}
+
+{% block encabezado %}
+    <h1>📚 Catálogo de Libros</h1>
+    <p class="lead mb-0">{{ total_libros }} libros en biblioteca &middot; {{ disponibles }} disponibles &middot; promedio {{ promedio }}/10</p>
+{% endblock %}
+
+{% block contenido %}
+<h3 class="mb-4">Destacados</h3>
+
+<div class="row g-4">
+    {% for libro in destacados %}
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <img src="{% static 'images/libros/' %}{{ libro.imagen }}" class="card-img-top" alt="Portada de {{ libro.titulo }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ libro.titulo }}</h5>
+                <p class="card-text text-muted mb-2">{{ libro.categoria }} &middot; {{ libro.anio }}</p>
+                <a href="{% url 'detalle_libro' libro.slug %}" class="btn btn-outline-success btn-sm">Ver ficha</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center text-muted">No hay libros destacados por el momento.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="text-center mt-5">
+    <a href="{% url 'listado_libros' %}" class="btn btn-success btn-lg">Ver catálogo completo</a>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo %}No encontrada &middot; Portal Cultural{% endblock %}
+
+{% block encabezado %}
+    <h1>No encontrada</h1>
+{% endblock %}
+
+{% block contenido %}
+<div class="text-center">
+    <p class="lead">No pudimos encontrar la {{ tipo }} solicitada.</p>
+    <a href="{% url 'listado_peliculas' %}" class="btn btn-primary">Volver al catálogo de películas</a>
+</div>
+{% endblock %}

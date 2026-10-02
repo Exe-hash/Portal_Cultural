@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "titulo": "El Eco del Silencio",
+    "categoria": "Drama",
+    "director": "Marina Solís",
+    "anio": 2022,
+    "duracion_minutos": 118,
+    "calificacion": 8.2,
+    "destacada": true,
+    "imagen": "el-eco-del-silencio.png",
+    "sinopsis": "Tras la muerte de su padre, una joven violinista regresa a su pueblo natal y descubre secretos familiares que la obligan a replantearse quién es realmente."
+  },
+  {
+    "id": 2,
+    "titulo": "Código Abierto",
+    "categoria": "Ciencia Ficción",
+    "director": "Tomás Herrera",
+    "anio": 2024,
+    "duracion_minutos": 105,
+    "calificacion": 7.9,
+    "destacada": true,
+    "imagen": "codigo-abierto.png",
+    "sinopsis": "Un grupo de programadores descubre que la inteligencia artificial que desarrollaron ha comenzado a escribir su propio código sin supervisión humana."
+  },
+  {
+    "id": 3,
+    "titulo": "Rumbo al Sur",
+    "categoria": "Documental",
+    "director": "Valentina Ríos",
+    "anio": 2021,
+    "duracion_minutos": 95,
+    "calificacion": 8.5,
+    "destacada": false,
+    "imagen": "rumbo-al-sur.png",
+    "sinopsis": "Un recorrido por los paisajes y comunidades del extremo sur de Chile, retratando su cultura, su historia y los desafíos del cambio climático."
+  },
+  {
+    "id": 4,
+    "titulo": "Sombras de Abril",
+    "categoria": "Suspenso",
+    "director": "Ignacio Paredes",
+    "anio": 2023,
+    "duracion_minutos": 110,
+    "calificacion": 7.4,
+    "destacada": true,
+    "imagen": "sombras-de-abril.png",
+    "sinopsis": "Una detective debe resolver una serie de desapariciones en un pequeño puerto antes de que el próximo temporal borre toda la evidencia."
+  },
+  {
+    "id": 5,
+    "titulo": "Risas en Cadena",
+    "categoria": "Comedia",
+    "director": "Camila Fuentes",
+    "anio": 2020,
+    "duracion_minutos": 99,
+    "calificacion": 6.8,
+    "destacada": false,
+    "imagen": "risas-en-cadena.png",
+    "sinopsis": "Cuatro amigos organizan la peor despedida de soltero de la historia y terminan involucrados en una serie de enredos imposibles de explicar."
+  },
+  {
+    "id": 6,
+    "titulo": "El Faro de Cristal",
+    "categoria": "Ciencia Ficción",
+    "director": "Marina Solís",
+    "anio": 2025,
+    "duracion_minutos": 128,
+    "calificacion": 8.9,
+    "destacada": false,
+    "imagen": "el-faro-de-cristal.png",
+    "sinopsis": "La última guardiana de un faro orbital debe decidir si confía en una señal extraterrestre que promete salvar a la humanidad... o destruirla."
+  }
+]

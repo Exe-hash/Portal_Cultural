@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Mis reservas &middot; Portal Cultural{% endblock %}
+
+{% block encabezado %}
+    <h1>Mis reservas</h1>
+    <p class="lead mb-0">Consulta el estado de tus solicitudes</p>
+{% endblock %}
+
+{% block contenido %}
+<h2 class="h4 mb-3">Libros</h2>
+<div class="table-responsive mb-5">
+    <table class="table table-striped table-hover align-middle">
+        <thead><tr><th>Libro</th><th>Retiro</th><th>Devolución prevista</th><th>Estado</th></tr></thead>
+        <tbody>
+        {% for reserva in reservas_libros %}
+            <tr>
+                <td><a href="{% url 'detalle_libro' reserva.libro.slug %}">{{ reserva.libro }}</a></td>
+                <td>{{ reserva.fecha_retiro|date:'d/m/Y' }}</td>
+                <td>{{ reserva.fecha_devolucion_prevista|date:'d/m/Y' }}</td>
+                <td><span class="badge bg-secondary">{{ reserva.get_estado_display }}</span></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4" class="text-center text-muted">Aún no tienes reservas de libros.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2 class="h4 mb-3">Películas</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead><tr><th>Película</th><th>Función</th><th>Entradas</th><th>Estado</th></tr></thead>
+        <tbody>
+        {% for reserva in reservas_peliculas %}
+            <tr>
+                <td><a href="{% url 'detalle_pelicula' reserva.pelicula.slug %}">{{ reserva.pelicula }}</a></td>
+                <td>{{ reserva.fecha_funcion|date:'d/m/Y H:i' }}</td>
+                <td>{{ reserva.cantidad_entradas }}</td>
+                <td><span class="badge bg-secondary">{{ reserva.get_estado_display }}</span></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4" class="text-center text-muted">Aún no tienes reservas de películas.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

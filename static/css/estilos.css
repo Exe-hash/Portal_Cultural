@@ -1,0 +1,274 @@
+/*
+ * Estilos propios del Portal Cultural.
+ * Se apoyan en las clases utilitarias de Bootstrap, agregando algunos
+ * detalles visuales (degradado del encabezado, efecto hover en las
+ * tarjetas) que no vienen incluidos por defecto.
+ */
+
+body {
+    background-color: #f5f6fa;
+}
+
+.encabezado-principal {
+    background: linear-gradient(120deg, #2b2d6e 0%, #4a2f6e 100%);
+}
+
+.card {
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 260px;
+}
+
+.badge-categoria {
+    letter-spacing: 0.03em;
+}
+
+footer a {
+    color: #cfd2ff;
+}
+
+/*
+ * Diseño editorial activo para la portada.
+ *
+ * La fila `main > .row.g-4.justify-content-center` es exclusiva de
+ * templates/home.html, por lo que las tarjetas solo cambian en el inicio.
+ * En los navegadores actuales, :has() limita además el lienzo y el encabezado
+ * a esa página. El bloque de compatibilidad mantiene el resultado visible en
+ * navegadores sin :has(), aplicando solo la paleta al marco compartido.
+ */
+@supports selector(body:has(*)) {
+    body:has(main > .row.g-4.justify-content-center) {
+        color: #17243a;
+        background-color: #fbf6ea;
+        font-family: Georgia, "Times New Roman", serif;
+    }
+
+    body:has(main > .row.g-4.justify-content-center) .navbar {
+        background-color: #132a4a !important;
+        border-bottom: 5px solid #f05d4e;
+    }
+
+    body:has(main > .row.g-4.justify-content-center) .navbar .navbar-brand,
+    body:has(main > .row.g-4.justify-content-center) .navbar .nav-link {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body:has(main > .row.g-4.justify-content-center) .encabezado-principal {
+        padding-top: clamp(3.5rem, 8vw, 6rem) !important;
+        padding-bottom: clamp(3.5rem, 8vw, 6rem) !important;
+        color: #ffffff;
+        text-align: left !important;
+        background: #f05d4e;
+    }
+
+    body:has(main > .row.g-4.justify-content-center) .encabezado-principal h1 {
+        max-width: 11ch;
+        margin-bottom: 0.75rem;
+        font-size: clamp(2.6rem, 6vw, 5.25rem);
+        font-weight: 700;
+        line-height: 0.95;
+        letter-spacing: -0.045em;
+    }
+
+    body:has(main > .row.g-4.justify-content-center) .encabezado-principal .lead {
+        max-width: 34rem;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.1rem;
+    }
+
+    body:has(main > .row.g-4.justify-content-center) main.container {
+        max-width: 76rem;
+        margin-top: 4rem !important;
+        margin-bottom: 5rem !important;
+    }
+
+    body:has(main > .row.g-4.justify-content-center) footer {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #132a4a !important;
+    }
+}
+
+/*
+ * Compatibilidad: si el navegador no reconoce :has(), las reglas anteriores
+ * no se seleccionan. Este respaldo conserva el resultado editorial visible
+ * sin tocar las plantillas ni JavaScript.
+ */
+@supports not selector(body:has(*)) {
+    body {
+        color: #17243a;
+        background-color: #fbf6ea;
+        font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .navbar {
+        background-color: #132a4a !important;
+        border-bottom: 5px solid #f05d4e;
+    }
+
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .encabezado-principal {
+        padding-top: clamp(3.5rem, 8vw, 6rem) !important;
+        padding-bottom: clamp(3.5rem, 8vw, 6rem) !important;
+        color: #ffffff;
+        text-align: left !important;
+        background: #f05d4e;
+    }
+
+    .encabezado-principal h1 {
+        max-width: 11ch;
+        margin-bottom: 0.75rem;
+        font-size: clamp(2.6rem, 6vw, 5.25rem);
+        font-weight: 700;
+        line-height: 0.95;
+        letter-spacing: -0.045em;
+    }
+
+    .encabezado-principal .lead {
+        max-width: 34rem;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.1rem;
+    }
+
+    main.container {
+        max-width: 76rem;
+        margin-top: 4rem !important;
+        margin-bottom: 5rem !important;
+    }
+
+    footer {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #132a4a !important;
+    }
+}
+
+/* Tarjetas y etiqueta: alcance exclusivo de la estructura de home.html. */
+main > .row.g-4.justify-content-center {
+    position: relative;
+}
+
+main > .row.g-4.justify-content-center::before {
+    position: absolute;
+    top: -2.4rem;
+    left: calc(var(--bs-gutter-x) * 0.5);
+    color: #f05d4e;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    content: "EXPLORA EL PORTAL";
+}
+
+main > .row.g-4.justify-content-center > div > .card {
+    overflow: hidden;
+    min-height: 100%;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none !important;
+    transition: transform 0.18s ease-in-out, box-shadow 0.18s ease-in-out;
+}
+
+main > .row.g-4.justify-content-center > div > .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 1rem 0 #132a4a !important;
+}
+
+main > .row.g-4.justify-content-center > div:first-child > .card {
+    color: #ffffff;
+    background-color: #132a4a;
+}
+
+main > .row.g-4.justify-content-center > div:last-child > .card {
+    color: #17243a;
+    background-color: #f7b801;
+}
+
+main > .row.g-4.justify-content-center .card-img-top {
+    height: clamp(13rem, 24vw, 17rem);
+    border-radius: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+main > .row.g-4.justify-content-center > div > .card:hover .card-img-top {
+    transform: scale(1.035);
+}
+
+main > .row.g-4.justify-content-center .card-body {
+    min-height: 18rem;
+    padding: 2rem;
+    text-align: left !important;
+}
+
+main > .row.g-4.justify-content-center .card-title {
+    margin-bottom: 1rem;
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+}
+
+main > .row.g-4.justify-content-center .card-text {
+    font-size: 1.05rem;
+    line-height: 1.55;
+}
+
+main > .row.g-4.justify-content-center .card-body .btn {
+    align-self: flex-start;
+    padding: 0.7rem 1.05rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    border: 0;
+    border-radius: 0;
+}
+
+main > .row.g-4.justify-content-center > div:first-child .btn {
+    color: #132a4a;
+    background-color: #ffffff;
+}
+
+main > .row.g-4.justify-content-center > div:first-child .btn:hover,
+main > .row.g-4.justify-content-center > div:first-child .btn:focus-visible {
+    color: #ffffff;
+    background-color: #f05d4e;
+}
+
+main > .row.g-4.justify-content-center > div:last-child .btn {
+    color: #ffffff;
+    background-color: #132a4a;
+}
+
+main > .row.g-4.justify-content-center > div:last-child .btn:hover,
+main > .row.g-4.justify-content-center > div:last-child .btn:focus-visible {
+    color: #132a4a;
+    background-color: #ffffff;
+}
+
+@media (max-width: 575.98px) {
+    @supports selector(body:has(*)) {
+        body:has(main > .row.g-4.justify-content-center) main.container {
+            margin-top: 3rem !important;
+        }
+    }
+
+    @supports not selector(body:has(*)) {
+        main.container {
+            margin-top: 3rem !important;
+        }
+    }
+
+    main > .row.g-4.justify-content-center .card-body {
+        min-height: 0;
+        padding: 1.5rem;
+    }
+}

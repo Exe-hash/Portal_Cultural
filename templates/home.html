@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Portal Cultural &middot; Inicio{% endblock %}
+
+{% block encabezado %}
+    <h1>¡Bienvenido al Portal Cultural!</h1>
+    <p class="lead mb-0">Un espacio informativo con catálogos de películas y libros</p>
+{% endblock %}
+
+{% block contenido %}
+<div class="row g-4 justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card h-100 shadow-sm">
+            <img src="{% static 'images/peliculas/portada.png' %}" class="card-img-top" alt="Catálogo de películas">
+            <div class="card-body text-center d-flex flex-column">
+                <h5 class="card-title">Catálogo de Películas</h5>
+                <p class="card-text flex-grow-1">
+                    Explora una selección de películas organizadas por categoría,
+                    con ficha, sinopsis y calificación de cada una.
+                </p>
+                <a href="{% url 'inicio_peliculas' %}" class="btn btn-primary">Ir a Películas</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-5">
+        <div class="card h-100 shadow-sm">
+            <img src="{% static 'images/libros/portada_general.png' %}" class="card-img-top" alt="Catálogo de libros">
+            <div class="card-body text-center d-flex flex-column">
+                <h5 class="card-title">Catálogo de Libros</h5>
+                <p class="card-text flex-grow-1">
+                    Descubre libros de distintos géneros disponibles en la
+                    biblioteca, con autor, año y disponibilidad.
+                </p>
+                <a href="{% url 'inicio_libros' %}" class="btn btn-success">Ir a Libros</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

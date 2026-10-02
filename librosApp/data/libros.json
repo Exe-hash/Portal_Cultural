@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "titulo": "El Jardín de los Números",
+    "categoria": "Novela",
+    "autor": "Beatriz Concha",
+    "anio": 2019,
+    "paginas": 240,
+    "calificacion": 8.0,
+    "disponible": true,
+    "destacado": false,
+    "imagen": "el-jardin-de-los-numeros.png",
+    "sinopsis": "Una matemática jubilada descubre que puede predecir pequeños eventos de su barrio a través de patrones numéricos, hasta que uno de ellos anuncia una tragedia."
+  },
+  {
+    "id": 2,
+    "titulo": "Manual del Programador Curioso",
+    "categoria": "Tecnología",
+    "autor": "Rodrigo Ortiz",
+    "anio": 2023,
+    "paginas": 180,
+    "calificacion": 9.1,
+    "disponible": true,
+    "destacado": true,
+    "imagen": "manual-del-programador-curioso.png",
+    "sinopsis": "Una guía práctica y cercana para quienes están dando sus primeros pasos en el desarrollo de software, con ejemplos, analogías y buenas prácticas."
+  },
+  {
+    "id": 3,
+    "titulo": "Cartas desde el Futuro",
+    "categoria": "Ciencia",
+    "autor": "Daniela Pizarro",
+    "anio": 2021,
+    "paginas": 200,
+    "calificacion": 7.6,
+    "disponible": false,
+    "destacado": false,
+    "imagen": "cartas-desde-el-futuro.png",
+    "sinopsis": "Un ensayo divulgativo sobre los avances tecnológicos que podrían transformar la vida cotidiana en las próximas décadas, escrito como una serie de cartas."
+  },
+  {
+    "id": 4,
+    "titulo": "El Algoritmo del Corazón",
+    "categoria": "Novela",
+    "autor": "Felipe Contreras",
+    "anio": 2022,
+    "paginas": 310,
+    "calificacion": 8.4,
+    "disponible": true,
+    "destacado": true,
+    "imagen": "el-algoritmo-del-corazon.png",
+    "sinopsis": "Dos desarrolladores de equipos rivales deben colaborar en un proyecto y descubren que los mejores sistemas, como las mejores historias, se construyen de a poco."
+  },
+  {
+    "id": 5,
+    "titulo": "Raíces de Papel",
+    "categoria": "Poesía",
+    "autor": "Antonia Vidal",
+    "anio": 2018,
+    "paginas": 96,
+    "calificacion": 8.8,
+    "disponible": true,
+    "destacado": false,
+    "imagen": "raices-de-papel.png",
+    "sinopsis": "Un poemario íntimo sobre la migración, la memoria familiar y el sentido de pertenencia, escrito desde el norte de Chile."
+  },
+  {
+    "id": 6,
+    "titulo": "Sistema Operativo del Alma",
+    "categoria": "Autoayuda",
+    "autor": "Rodrigo Ortiz",
+    "anio": 2020,
+    "paginas": 150,
+    "calificacion": 6.9,
+    "disponible": false,
+    "destacado": false,
+    "imagen": "sistema-operativo-del-alma.png",
+    "sinopsis": "Una propuesta para 'reinstalar' hábitos y rutinas personales usando metáforas del mundo de la informática, pensada para quienes se sienten estancados."
+  }
+]

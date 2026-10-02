@@ -1,0 +1,13 @@
+.env
+.venv/
+venv/
+entorno/
+__pycache__/
+*.py[cod]
+db.sqlite3
+staticfiles/
+.idea/
+.vscode/
+*.pem
+*.log
+vista-previa-inicio-editorial.png

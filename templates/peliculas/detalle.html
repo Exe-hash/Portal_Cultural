@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}{{ pelicula.titulo }} &middot; Portal Cultural{% endblock %}
+
+{% block encabezado %}
+    <h1>{{ pelicula.titulo }}</h1>
+    <p class="lead mb-0">{{ pelicula.categoria }} &middot; {{ pelicula.anio }}</p>
+{% endblock %}
+
+{% block contenido %}
+<div class="row g-4">
+    <div class="col-md-4">
+        <img src="{% static 'images/peliculas/' %}{{ pelicula.imagen }}" class="img-fluid rounded shadow-sm" alt="Afiche de {{ pelicula.titulo }}">
+    </div>
+    <div class="col-md-8">
+        <ul class="list-unstyled fs-5">
+            <li class="mb-2"><strong>Director(a):</strong> {{ pelicula.director }}</li>
+            <li class="mb-2"><strong>Año:</strong> {{ pelicula.anio }}</li>
+            <li class="mb-2"><strong>Duración:</strong> {{ pelicula.duracion_minutos }} minutos</li>
+            <li class="mb-2"><strong>Calificación:</strong> {{ pelicula.calificacion }}/10</li>
+            {% if pelicula.destacada %}
+            <li class="mb-2"><span class="badge bg-danger badge-categoria">Película destacada</span></li>
+            {% endif %}
+        </ul>
+        <p class="fs-5">{{ pelicula.sinopsis }}</p>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'listado_peliculas' %}" class="btn btn-secondary">&larr; Volver al catálogo</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'reservar_pelicula' pelicula.slug %}" class="btn btn-primary">Reservar película</a>
+            {% else %}
+            <a href="{% url 'login' %}?next={% url 'reservar_pelicula' pelicula.slug %}" class="btn btn-primary">Inicia sesión para reservar</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

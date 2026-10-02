@@ -1,0 +1,36 @@
+/*
+ * Estilos propios del Portal Cultural.
+ * Se apoyan en las clases utilitarias de Bootstrap, agregando algunos
+ * detalles visuales (degradado del encabezado, efecto hover en las
+ * tarjetas) que no vienen incluidos por defecto.
+ */
+
+body {
+    background-color: #f5f6fa;
+}
+
+.encabezado-principal {
+    background: linear-gradient(120deg, #2b2d6e 0%, #4a2f6e 100%);
+}
+
+.card {
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 260px;
+}
+
+.badge-categoria {
+    letter-spacing: 0.03em;
+}
+
+footer a {
+    color: #cfd2ff;
+}

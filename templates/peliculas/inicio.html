@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Películas &middot; Portal Cultural{% endblock %}
+
+{% block encabezado %}
+    <h1>🎬 Catálogo de Películas</h1>
+    <p class="lead mb-0">{{ total_peliculas }} películas disponibles &middot; calificación promedio {{ promedio }}/10</p>
+{% endblock %}
+
+{% block contenido %}
+<h3 class="mb-4">Destacadas</h3>
+
+<div class="row g-4">
+    {% for pelicula in destacadas %}
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <img src="{% static 'images/peliculas/' %}{{ pelicula.imagen }}" class="card-img-top" alt="Afiche de {{ pelicula.titulo }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ pelicula.titulo }}</h5>
+                <p class="card-text text-muted mb-2">{{ pelicula.categoria }} &middot; {{ pelicula.anio }}</p>
+                <a href="{% url 'detalle_pelicula' pelicula.slug %}" class="btn btn-outline-primary btn-sm">Ver ficha</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center text-muted">No hay películas destacadas por el momento.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="text-center mt-5">
+    <a href="{% url 'listado_peliculas' %}" class="btn btn-primary btn-lg">Ver catálogo completo</a>
+</div>
+{% endblock %}
