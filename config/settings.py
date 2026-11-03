@@ -1,7 +1,7 @@
 """
 Configuración del proyecto Portal Cultural.
 
-Evaluación Sumativa #2 - Programación Back End (TI3041)
+Evaluación Sumativa #3 - Programación Back End (TI3041)
 INACAP - Sede La Serena
 """
 
@@ -143,8 +143,33 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'principal'
+LOGIN_REDIRECT_URL = 'gestion:panel'
 LOGOUT_REDIRECT_URL = 'principal'
+
+# Correo de recuperación. El backend de consola permite probar el flujo local.
+EMAIL_MODE = config("PORTAL_EMAIL_MODE", default="console" if DEBUG else "smtp")
+if EMAIL_MODE == "console":
+    MAILERS = {"default": {"BACKEND": "django.core.mail.backends.console.EmailBackend"}}
+elif EMAIL_MODE == "smtp":
+    MAILERS = {
+        "default": {
+            "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+            "OPTIONS": {
+                "host": config("PORTAL_SMTP_HOST", default="localhost"),
+                "port": config("PORTAL_SMTP_PORT", default=587, cast=int),
+                "username": config("PORTAL_SMTP_USER", default=""),
+                "password": config("PORTAL_SMTP_PASSWORD", default=""),
+                "use_tls": config("PORTAL_SMTP_TLS", default=True, cast=bool),
+                "use_ssl": config("PORTAL_SMTP_SSL", default=False, cast=bool),
+                "timeout": 10,
+            },
+        },
+    }
+else:
+    raise ValueError("PORTAL_EMAIL_MODE debe ser 'console' o 'smtp'.")
+
+DEFAULT_FROM_EMAIL = config("PORTAL_FROM_EMAIL", default="Portal Cultural <portal@localhost>")
+PASSWORD_RESET_TIMEOUT = 3600
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

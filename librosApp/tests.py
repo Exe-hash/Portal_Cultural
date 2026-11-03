@@ -1,7 +1,6 @@
 from datetime import timedelta
 
-from django.contrib import admin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -27,19 +26,15 @@ class LibrosModeloYVistasTest(TestCase):
         respuesta = self.client.get(reverse("detalle_libro", args=["no-existe"]))
         self.assertEqual(respuesta.status_code, 404)
 
-    def test_modelos_estan_registrados_en_admin(self):
-        self.assertIn(Autor, admin.site._registry)
-        self.assertIn(CategoriaLibro, admin.site._registry)
-        self.assertIn(Libro, admin.site._registry)
-        self.assertIn(ReservaLibro, admin.site._registry)
-
     def test_administrador_ve_controles_crud_en_listado(self):
         administrador = User.objects.create_user(
-            "adminlibros", password="ClaveSegura123!", is_staff=True
+            "adminlibros", password="ClaveSegura123!"
         )
+        administrador.groups.add(Group.objects.get(name="Administrador"))
         self.client.force_login(administrador)
         respuesta = self.client.get(reverse("listado_libros"))
         self.assertContains(respuesta, "Agregar libro")
+        self.assertContains(respuesta, reverse("gestion:libros_crear"))
         self.assertContains(respuesta, "Modificar")
         self.assertContains(respuesta, "Eliminar")
 

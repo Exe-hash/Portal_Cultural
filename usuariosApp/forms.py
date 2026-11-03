@@ -2,6 +2,19 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from .perfiles import PERFILES
+
+
+def aplicar_bootstrap(formulario):
+    for campo in formulario.fields.values():
+        if isinstance(campo.widget, forms.CheckboxInput):
+            clase = "form-check-input"
+        elif isinstance(campo.widget, forms.Select):
+            clase = "form-select"
+        else:
+            clase = "form-control"
+        campo.widget.attrs["class"] = clase
+
 
 class RegistroUsuarioForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Correo electrónico")
@@ -27,5 +40,30 @@ class RegistroUsuarioForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs["class"] = "form-control"
+        aplicar_bootstrap(self)
+
+
+class CrearUsuarioGestionForm(RegistroUsuarioForm):
+    perfil = forms.ChoiceField(choices=[(perfil, perfil) for perfil in PERFILES])
+
+
+class EditarUsuarioGestionForm(forms.ModelForm):
+    perfil = forms.ChoiceField(
+        choices=[("", "Usuario del portal")] + [(perfil, perfil) for perfil in PERFILES],
+        required=False,
+    )
+    email = forms.EmailField(required=True, label="Correo electrónico")
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "is_active")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        aplicar_bootstrap(self)
+
+    def clean_email(self):
+        correo = self.cleaned_data["email"].lower()
+        if User.objects.filter(email__iexact=correo).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Ya existe un usuario registrado con este correo.")
+        return correo

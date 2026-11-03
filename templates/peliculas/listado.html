@@ -27,9 +27,9 @@
     </div>
 </form>
 
-{% if user.is_staff %}
+{% if perms.peliculasApp.add_pelicula %}
 <div class="d-flex justify-content-end mb-3">
-    <a href="{% url 'admin:peliculasApp_pelicula_add' %}" class="btn btn-primary">Agregar película</a>
+    <a href="{% url 'gestion:peliculas_crear' %}" class="btn btn-primary">Agregar película</a>
 </div>
 {% endif %}
 
@@ -46,10 +46,10 @@
                 <p class="card-text flex-grow-1">{{ pelicula.sinopsis|truncatewords:16 }}</p>
                 <p class="mb-2"><strong>Calificación:</strong> {{ pelicula.calificacion }}/10</p>
                 <a href="{% url 'detalle_pelicula' pelicula.slug %}" class="btn btn-primary btn-sm">Ver ficha</a>
-                {% if user.is_staff %}
+                {% if perms.peliculasApp.change_pelicula or perms.peliculasApp.delete_pelicula %}
                 <div class="d-flex gap-2 mt-2">
-                    <a href="{% url 'admin:peliculasApp_pelicula_change' pelicula.pk %}" class="btn btn-outline-secondary btn-sm flex-fill">Modificar</a>
-                    <a href="{% url 'admin:peliculasApp_pelicula_delete' pelicula.pk %}" class="btn btn-outline-danger btn-sm flex-fill">Eliminar</a>
+                    {% if perms.peliculasApp.change_pelicula %}<a href="{% url 'gestion:peliculas_editar' pelicula.pk %}" class="btn btn-outline-secondary btn-sm flex-fill">Modificar</a>{% endif %}
+                    {% if perms.peliculasApp.delete_pelicula %}<a href="{% url 'gestion:peliculas_eliminar' pelicula.pk %}" class="btn btn-outline-danger btn-sm flex-fill">Eliminar</a>{% endif %}
                 </div>
                 {% endif %}
             </div>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block titulo %}Gestión de reservas · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Gestión de reservas</h1>{% endblock %}
+{% block contenido %}
+<h2 class="h4">Reservas de libros</h2>
+{% include 'gestion/_tabla_reservas.html' with reservas=reservas_libros tipo='libro' permiso=perms.librosApp.change_reservalibro %}
+<h2 class="h4 mt-4">Reservas de películas</h2>
+{% include 'gestion/_tabla_reservas.html' with reservas=reservas_peliculas tipo='pelicula' permiso=perms.peliculasApp.change_reservapelicula %}
+<a class="btn btn-outline-secondary" href="{% url 'gestion:panel' %}">Volver al panel</a>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block titulo %}Gestión de usuarios · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Gestión de usuarios</h1>{% endblock %}
+{% block contenido %}
+<div class="d-flex flex-wrap justify-content-between gap-3 mb-3">
+    <form method="get" class="d-flex gap-2" role="search">
+        <label class="visually-hidden" for="buscar-usuario">Buscar usuario</label>
+        <input class="form-control" type="search" id="buscar-usuario" name="q" value="{{ busqueda }}" placeholder="Usuario o correo">
+        <button class="btn btn-outline-primary" type="submit">Buscar</button>
+    </form>
+    {% if perms.auth.add_user %}<a class="btn btn-primary" href="{% url 'gestion:usuarios_crear' %}">Crear usuario</a>{% endif %}
+</div>
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr><th scope="col">Usuario</th><th scope="col">Correo</th><th scope="col">Grupos</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr>
+        </thead>
+        <tbody>
+        {% for cuenta in registros %}
+            <tr>
+                <td>{{ cuenta.username }}</td>
+                <td>{{ cuenta.email|default:"—" }}</td>
+                <td>
+                    {% if cuenta.is_superuser %}Administrador (superusuario)
+                    {% else %}
+                        {% for grupo in cuenta.groups.all %}{{ grupo.name }}{% if not forloop.last %}, {% endif %}{% empty %}Usuario del portal{% endfor %}
+                    {% endif %}
+                </td>
+                <td>{{ cuenta.is_active|yesno:"Activa,Inactiva" }}</td>
+                <td>
+                    {% if perms.auth.change_user and not cuenta.is_superuser and cuenta.pk != user.pk %}
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'gestion:usuarios_editar' cuenta.pk %}">Modificar perfil</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">No se encontraron usuarios.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a class="btn btn-outline-secondary" href="{% url 'gestion:panel' %}">Volver al panel</a>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block titulo %}Recuperar contraseña · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Recuperar contraseña</h1>{% endblock %}
+{% block contenido %}
+<div class="card shadow-sm mx-auto" style="max-width: 32rem;">
+    <div class="card-body p-4">
+        <p>Ingresa el correo que registraste en el Portal Cultural.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <label class="form-label" for="{{ form.email.id_for_label }}">Correo electrónico</label>
+            {{ form.email.errors }}
+            <input class="form-control mb-3" type="email" name="email" id="{{ form.email.id_for_label }}"
+                   value="{{ form.email.value|default_if_none:'' }}" autocomplete="email" maxlength="254" required>
+            <button class="btn btn-primary" type="submit">Enviar enlace</button>
+            <a class="btn btn-outline-secondary" href="{% url 'login' %}">Volver</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

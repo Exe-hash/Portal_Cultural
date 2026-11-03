@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block titulo %}Nueva contraseña · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Establecer una contraseña nueva</h1>{% endblock %}
+{% block contenido %}
+{% if validlink %}
+<div class="card shadow-sm mx-auto" style="max-width: 32rem;">
+    <div class="card-body p-4">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for campo in form %}
+                <div class="mb-3">
+                    <label class="form-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                    <input class="form-control" type="password" name="{{ campo.html_name }}"
+                           id="{{ campo.id_for_label }}" autocomplete="new-password" required>
+                    {% if campo.help_text %}<div class="form-text">{{ campo.help_text }}</div>{% endif %}
+                    {{ campo.errors }}
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Guardar contraseña</button>
+        </form>
+    </div>
+</div>
+{% else %}
+<p class="alert alert-warning">El enlace ya fue utilizado, expiró o no es válido.</p>
+<a class="btn btn-primary" href="{% url 'password_reset' %}">Solicitar otro enlace</a>
+{% endif %}
+{% endblock %}

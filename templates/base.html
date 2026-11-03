@@ -42,9 +42,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'mis_reservas' %}">Mis reservas</a>
                     </li>
-                    {% if user.is_staff %}
+                    {% if perms.librosApp.view_libro or perms.peliculasApp.view_pelicula %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:index' %}">Administración</a>
+                        <a class="nav-link" href="{% url 'gestion:panel' %}">Mi panel</a>
                     </li>
                     {% endif %}
                     <li class="nav-item d-flex align-items-center ms-lg-2">

@@ -1,0 +1,34 @@
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr><th scope="col">Registro</th><th scope="col">Usuario</th><th scope="col">Fecha</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr>
+        </thead>
+        <tbody>
+        {% for reserva in reservas %}
+            <tr>
+                {% if tipo == 'libro' %}
+                    <td>{{ reserva.libro }}</td><td>{{ reserva.usuario }}</td><td>{{ reserva.fecha_retiro }}</td>
+                {% else %}
+                    <td>{{ reserva.pelicula }}</td><td>{{ reserva.usuario }}</td><td>{{ reserva.fecha_funcion }}</td>
+                {% endif %}
+                <td>{{ reserva.get_estado_display }}</td>
+                <td>
+                    {% if permiso and reserva.estado == 'pendiente' or permiso and reserva.estado == 'confirmada' %}
+                    <form method="post" class="d-flex flex-wrap gap-2" action="{% url 'gestion:reserva_estado' tipo reserva.pk %}">
+                        {% csrf_token %}
+                        {% if reserva.estado == 'pendiente' %}
+                            <button class="btn btn-sm btn-outline-primary" name="estado" value="confirmada">Confirmar</button>
+                        {% else %}
+                            <button class="btn btn-sm btn-outline-success" name="estado" value="completada">Completar</button>
+                        {% endif %}
+                        <button class="btn btn-sm btn-outline-danger" name="estado" value="cancelada">Cancelar</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">No hay reservas registradas.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

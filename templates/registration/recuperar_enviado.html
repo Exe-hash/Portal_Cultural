@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block titulo %}Revisa tu correo · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Revisa tu correo</h1>{% endblock %}
+{% block contenido %}
+<p>Si el correo corresponde a una cuenta activa, recibirás un enlace para elegir una contraseña nueva.</p>
+<p>El enlace es de un solo uso y expira en una hora.</p>
+<a class="btn btn-primary" href="{% url 'login' %}">Volver al inicio de sesión</a>
+{% endblock %}

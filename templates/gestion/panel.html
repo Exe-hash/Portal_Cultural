@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block titulo %}Panel {{ perfil }} · Portal Cultural{% endblock %}
+{% block encabezado %}
+<h1>Panel {{ perfil }}</h1>
+<p class="lead mb-0">{{ descripcion }}</p>
+{% endblock %}
+{% block contenido %}
+{% if indicadores %}
+<section class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4" aria-label="Resumen del sistema">
+    {% for etiqueta, cantidad in indicadores.items %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-secondary mb-1">{{ etiqueta }}</p>
+                    <p class="fs-3 fw-bold mb-0">{{ cantidad }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</section>
+{% endif %}
+<div class="row g-4">
+    <section class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h4">Catálogos</h2>
+                <div class="d-flex flex-wrap gap-2">
+                    {% if perms.librosApp.view_libro %}<a class="btn btn-outline-primary" href="{% url 'gestion:libros' %}">Libros</a>{% endif %}
+                    {% if perms.peliculasApp.view_pelicula %}<a class="btn btn-outline-primary" href="{% url 'gestion:peliculas' %}">Películas</a>{% endif %}
+                    {% if perms.librosApp.view_autor %}<a class="btn btn-outline-primary" href="{% url 'gestion:autores' %}">Autores</a>{% endif %}
+                    {% if perms.librosApp.view_categorialibro %}<a class="btn btn-outline-primary" href="{% url 'gestion:categorias-libros' %}">Categorías de libros</a>{% endif %}
+                    {% if perms.peliculasApp.view_categoriapelicula %}<a class="btn btn-outline-primary" href="{% url 'gestion:categorias-peliculas' %}">Categorías de películas</a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h4">Reservas</h2>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-outline-success" href="{% url 'listado_libros' %}">Reservar un libro</a>
+                    <a class="btn btn-outline-success" href="{% url 'listado_peliculas' %}">Reservar una película</a>
+                    <a class="btn btn-outline-primary" href="{% url 'mis_reservas' %}">Mis reservas</a>
+                    {% if perms.librosApp.view_reservalibro and perms.peliculasApp.view_reservapelicula %}
+                        <a class="btn btn-primary" href="{% url 'gestion:reservas' %}">Gestionar reservas</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if perms.auth.view_user %}
+    <section class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h2 class="h4">Usuarios y perfiles</h2>
+                <a class="btn btn-primary" href="{% url 'gestion:usuarios' %}">Gestionar usuarios</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

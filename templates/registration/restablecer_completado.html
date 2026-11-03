@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block titulo %}Contraseña actualizada · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Contraseña actualizada</h1>{% endblock %}
+{% block contenido %}
+<p class="alert alert-success">Tu contraseña se cambió correctamente. Ya puedes iniciar sesión con la nueva.</p>
+<a class="btn btn-primary" href="{% url 'login' %}">Iniciar sesión</a>
+{% endblock %}

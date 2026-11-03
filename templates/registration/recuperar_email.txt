@@ -1,0 +1,10 @@
+{% autoescape off %}Hola, {{ user.get_username }}.
+
+Recibimos una solicitud para restablecer tu contraseña del Portal Cultural.
+Abre este enlace para establecer una nueva contraseña:
+
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+El enlace expira en una hora y deja de funcionar después de usarlo.
+Si no solicitaste el cambio, puedes ignorar este correo.
+{% endautoescape %}

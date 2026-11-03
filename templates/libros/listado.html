@@ -27,9 +27,9 @@
     </div>
 </form>
 
-{% if user.is_staff %}
+{% if perms.librosApp.add_libro %}
 <div class="d-flex justify-content-end mb-3">
-    <a href="{% url 'admin:librosApp_libro_add' %}" class="btn btn-success">Agregar libro</a>
+    <a href="{% url 'gestion:libros_crear' %}" class="btn btn-success">Agregar libro</a>
 </div>
 {% endif %}
 
@@ -53,10 +53,10 @@
                     {% endif %}
                 </p>
                 <a href="{% url 'detalle_libro' libro.slug %}" class="btn btn-success btn-sm">Ver ficha</a>
-                {% if user.is_staff %}
+                {% if perms.librosApp.change_libro or perms.librosApp.delete_libro %}
                 <div class="d-flex gap-2 mt-2">
-                    <a href="{% url 'admin:librosApp_libro_change' libro.pk %}" class="btn btn-outline-secondary btn-sm flex-fill">Modificar</a>
-                    <a href="{% url 'admin:librosApp_libro_delete' libro.pk %}" class="btn btn-outline-danger btn-sm flex-fill">Eliminar</a>
+                    {% if perms.librosApp.change_libro %}<a href="{% url 'gestion:libros_editar' libro.pk %}" class="btn btn-outline-secondary btn-sm flex-fill">Modificar</a>{% endif %}
+                    {% if perms.librosApp.delete_libro %}<a href="{% url 'gestion:libros_eliminar' libro.pk %}" class="btn btn-outline-danger btn-sm flex-fill">Eliminar</a>{% endif %}
                 </div>
                 {% endif %}
             </div>

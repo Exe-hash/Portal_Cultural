@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block titulo %}Gestionar {{ entidades }} · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Gestionar {{ entidades }}</h1>{% endblock %}
+{% block contenido %}
+<div class="d-flex flex-wrap justify-content-between gap-3 mb-3">
+    <form method="get" class="d-flex gap-2" role="search">
+        <label class="visually-hidden" for="buscar-registro">Buscar registro</label>
+        <input class="form-control" type="search" id="buscar-registro" name="q" value="{{ busqueda }}" placeholder="Buscar registro">
+        <button class="btn btn-outline-primary" type="submit">Buscar</button>
+    </form>
+    {% if puede_crear %}<a class="btn btn-primary" href="{% url ruta_crear %}">Agregar {{ entidad }}</a>{% endif %}
+</div>
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead><tr><th scope="col">Registro</th><th scope="col">Acciones</th></tr></thead>
+        <tbody>
+        {% for registro in registros %}
+            <tr>
+                <td>{{ registro }}</td>
+                <td>
+                    {% if puede_editar %}<a class="btn btn-sm btn-outline-primary" href="{% url ruta_editar registro.pk %}">Modificar</a>{% endif %}
+                    {% if puede_eliminar %}<a class="btn btn-sm btn-outline-danger" href="{% url ruta_eliminar registro.pk %}">Eliminar</a>{% endif %}
+                    {% if not puede_editar and not puede_eliminar %}Consulta{% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="2">No se encontraron registros.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a class="btn btn-outline-secondary" href="{% url 'gestion:panel' %}">Volver al panel</a>
+{% endblock %}

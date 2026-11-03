@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block titulo %}Acceso restringido · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Acceso restringido</h1>{% endblock %}
+{% block contenido %}
+<p>Tu cuenta no tiene permiso para usar esta función.</p>
+<a class="btn btn-primary" href="{% url 'gestion:panel' %}">Volver al panel</a>
+{% endblock %}

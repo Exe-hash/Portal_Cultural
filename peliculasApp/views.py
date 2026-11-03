@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.db.models import Avg, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -63,22 +64,24 @@ def reservar(request, slug):
         formulario = ReservaPeliculaForm(request.POST)
         if formulario.is_valid():
             fecha = formulario.cleaned_data["fecha_funcion"]
-            duplicada = ReservaPelicula.objects.filter(
-                usuario=request.user,
-                pelicula=pelicula,
-                fecha_funcion=fecha,
-            ).exclude(estado=ReservaPelicula.Estado.CANCELADA)
-            if duplicada.exists():
-                formulario.add_error(
-                    None, "Ya tienes una reserva activa para esta película y función."
-                )
-            else:
-                reserva = formulario.save(commit=False)
-                reserva.usuario = request.user
-                reserva.pelicula = pelicula
-                reserva.save()
-                messages.success(request, "La reserva de la película fue registrada.")
-                return redirect("mis_reservas")
+            with transaction.atomic():
+                pelicula = get_object_or_404(Pelicula.objects.select_for_update(), pk=pelicula.pk)
+                duplicada = ReservaPelicula.objects.filter(
+                    usuario=request.user,
+                    pelicula=pelicula,
+                    fecha_funcion=fecha,
+                ).exclude(estado=ReservaPelicula.Estado.CANCELADA)
+                if duplicada.exists():
+                    formulario.add_error(
+                        None, "Ya tienes una reserva activa para esta película y función."
+                    )
+                else:
+                    reserva = formulario.save(commit=False)
+                    reserva.usuario = request.user
+                    reserva.pelicula = pelicula
+                    reserva.save()
+                    messages.success(request, "La reserva de la película fue registrada.")
+                    return redirect("mis_reservas")
     else:
         formulario = ReservaPeliculaForm()
 

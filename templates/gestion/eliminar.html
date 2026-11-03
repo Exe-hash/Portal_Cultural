@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block titulo %}Eliminar {{ entidad }} · Portal Cultural{% endblock %}
+{% block encabezado %}<h1>Eliminar {{ entidad }}</h1>{% endblock %}
+{% block contenido %}
+<p>Confirma que quieres eliminar el registro <strong>{{ object }}</strong>.</p>
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Confirmar eliminación</button>
+    <a class="btn btn-outline-secondary" href="{{ volver }}">Cancelar</a>
+</form>
+{% endblock %}

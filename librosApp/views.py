@@ -69,7 +69,7 @@ def reservar(request, slug):
         formulario = ReservaLibroForm(request.POST)
         if formulario.is_valid():
             with transaction.atomic():
-                libro = Libro.objects.select_for_update().get(pk=libro.pk)
+                libro = get_object_or_404(Libro.objects.select_for_update(), pk=libro.pk)
                 if not libro.disponible:
                     formulario.add_error(
                         None, "El libro acaba de ser reservado por otro usuario."
