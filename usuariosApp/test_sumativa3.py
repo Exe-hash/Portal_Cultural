@@ -36,6 +36,8 @@ class GestionPortalTest(TestCase):
         self.assertContains(respuesta, "Panel Supervisor")
         self.assertEqual(self.client.get(reverse("logout")).status_code, 405)
         self.assertRedirects(self.client.post(reverse("logout")), reverse("principal"))
+        self.assertNotIn("_auth_user_id", self.client.session)
+        self.assertTrue(self.client.session.get_expire_at_browser_close())
         self.assertRedirects(self.client.get(reverse("gestion:panel")), reverse("login") + "?next=/gestion/")
 
     def test_perfiles_tienen_panel_y_permisos_distintos(self):
@@ -87,6 +89,35 @@ class GestionPortalTest(TestCase):
         self.assertRedirects(editar, reverse("gestion:usuarios"))
         self.assertEqual(list(usuario.groups.values_list("name", flat=True)), [ADMINISTRATIVO])
         self.assertEqual(self.client.get(reverse("gestion:usuarios_editar", args=[self.admin.pk])).status_code, 403)
+
+    def test_administrador_elimina_usuario_sin_reservas(self):
+        self.client.force_login(self.admin)
+        cuenta = User.objects.create_user("cuenta_eliminable", password="ClavePortal-42-segura")
+        ruta = reverse("gestion:usuarios_eliminar", args=[cuenta.pk])
+        self.assertContains(self.client.get(ruta), "Confirmar eliminación")
+        self.assertRedirects(self.client.post(ruta), reverse("gestion:usuarios"))
+        self.assertFalse(User.objects.filter(pk=cuenta.pk).exists())
+        self.assertEqual(
+            self.client.get(reverse("gestion:usuarios_eliminar", args=[self.admin.pk])).status_code,
+            403,
+        )
+
+    def test_administrador_no_elimina_usuario_con_reservas(self):
+        cuenta = User.objects.create_user("cuenta_con_historial", password="ClavePortal-42-segura")
+        retiro = timezone.localdate() + timedelta(days=1)
+        ReservaLibro.objects.create(
+            usuario=cuenta,
+            libro=Libro.objects.filter(disponible=True).first(),
+            fecha_retiro=retiro,
+            fecha_devolucion_prevista=retiro + timedelta(days=5),
+        )
+        self.client.force_login(self.admin)
+        respuesta = self.client.post(
+            reverse("gestion:usuarios_eliminar", args=[cuenta.pk]),
+            follow=True,
+        )
+        self.assertContains(respuesta, "No se puede eliminar esta cuenta porque tiene reservas asociadas")
+        self.assertTrue(User.objects.filter(pk=cuenta.pk).exists())
 
     def test_crud_libros_y_peliculas_desde_plantillas(self):
         self.client.force_login(self.admin)

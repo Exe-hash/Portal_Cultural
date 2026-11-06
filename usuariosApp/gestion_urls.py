@@ -14,6 +14,7 @@ urlpatterns = [
     path("usuarios/", gestion.usuarios, name="usuarios"),
     path("usuarios/crear/", gestion.crear_usuario, name="usuarios_crear"),
     path("usuarios/<int:pk>/editar/", gestion.editar_usuario, name="usuarios_editar"),
+    path("usuarios/<int:pk>/eliminar/", gestion.eliminar_usuario, name="usuarios_eliminar"),
     path("reservas/", gestion.reservas, name="reservas"),
     path("reservas/<str:tipo>/<int:pk>/estado/", gestion.actualizar_reserva, name="reserva_estado"),
 ]

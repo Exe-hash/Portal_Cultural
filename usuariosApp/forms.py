@@ -49,7 +49,7 @@ class CrearUsuarioGestionForm(RegistroUsuarioForm):
 
 class EditarUsuarioGestionForm(forms.ModelForm):
     perfil = forms.ChoiceField(
-        choices=[("", "Usuario del portal")] + [(perfil, perfil) for perfil in PERFILES],
+        choices=[("", "Sin perfil asignado")] + [(perfil, perfil) for perfil in PERFILES],
         required=False,
     )
     email = forms.EmailField(required=True, label="Correo electrónico")

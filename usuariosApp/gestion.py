@@ -102,6 +102,37 @@ def editar_usuario(request, pk):
 
 
 @login_required
+@permission_required("auth.delete_user", raise_exception=True)
+@transaction.atomic
+def eliminar_usuario(request, pk):
+    registros = User.objects.select_for_update() if request.method == "POST" else User.objects.all()
+    usuario = get_object_or_404(registros, pk=pk)
+    if usuario.is_superuser or usuario.pk == request.user.pk:
+        raise PermissionDenied
+
+    tiene_reservas = usuario.reservas_libros.exists() or usuario.reservas_peliculas.exists()
+    if tiene_reservas:
+        messages.error(
+            request,
+            "No se puede eliminar esta cuenta porque tiene reservas asociadas. "
+            "Así se conserva el historial del portal.",
+        )
+        return redirect("gestion:usuarios")
+
+    if request.method == "POST":
+        username = usuario.username
+        usuario.delete()
+        messages.success(request, f"La cuenta {username} se eliminó correctamente.")
+        return redirect("gestion:usuarios")
+
+    return render(request, "gestion/eliminar.html", {
+        "object": usuario,
+        "entidad": "usuario",
+        "volver": reverse("gestion:usuarios"),
+    })
+
+
+@login_required
 @permission_required(("librosApp.view_reservalibro", "peliculasApp.view_reservapelicula"), raise_exception=True)
 def reservas(request):
     return render(request, "gestion/reservas.html", {

@@ -23,13 +23,16 @@
                 <td>
                     {% if cuenta.is_superuser %}Administrador (superusuario)
                     {% else %}
-                        {% for grupo in cuenta.groups.all %}{{ grupo.name }}{% if not forloop.last %}, {% endif %}{% empty %}Usuario del portal{% endfor %}
+                        {% for grupo in cuenta.groups.all %}{{ grupo.name }}{% if not forloop.last %}, {% endif %}{% empty %}Sin perfil asignado{% endfor %}
                     {% endif %}
                 </td>
                 <td>{{ cuenta.is_active|yesno:"Activa,Inactiva" }}</td>
                 <td>
                     {% if perms.auth.change_user and not cuenta.is_superuser and cuenta.pk != user.pk %}
                         <a class="btn btn-sm btn-outline-primary" href="{% url 'gestion:usuarios_editar' cuenta.pk %}">Modificar perfil</a>
+                    {% endif %}
+                    {% if perms.auth.delete_user and not cuenta.is_superuser and cuenta.pk != user.pk %}
+                        <a class="btn btn-sm btn-outline-danger" href="{% url 'gestion:usuarios_eliminar' cuenta.pk %}">Eliminar</a>
                     {% endif %}
                 </td>
             </tr>

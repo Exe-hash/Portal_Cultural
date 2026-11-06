@@ -145,6 +145,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'gestion:panel'
 LOGOUT_REDIRECT_URL = 'principal'
+# La autenticación dura únicamente mientras el navegador permanece abierto.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Correo de recuperación. El backend de consola permite probar el flujo local.
 EMAIL_MODE = config("PORTAL_EMAIL_MODE", default="console" if DEBUG else "smtp")
