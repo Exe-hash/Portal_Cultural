@@ -145,8 +145,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'gestion:panel'
 LOGOUT_REDIRECT_URL = 'principal'
+# Invalida las cookies de sesiones emitidas antes de esta política.
+SESSION_COOKIE_NAME = 'portal_cultural_session_v2'
 # La autenticación dura únicamente mientras el navegador permanece abierto.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# Renueva la cookie en cada respuesta, incluso para las sesiones ya iniciadas.
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Correo de recuperación. El backend de consola permite probar el flujo local.
 EMAIL_MODE = config("PORTAL_EMAIL_MODE", default="console" if DEBUG else "smtp")

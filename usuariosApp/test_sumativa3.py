@@ -2,6 +2,7 @@ import re
 from datetime import timedelta
 from urllib.parse import urlsplit
 
+from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.core import mail
 from django.test import Client, TestCase
@@ -34,10 +35,11 @@ class GestionPortalTest(TestCase):
             "username": self.supervisor.username, "password": "ClavePortal-42-segura",
         }, follow=True)
         self.assertContains(respuesta, "Panel Supervisor")
+        self.assertTrue(self.client.session.get_expire_at_browser_close())
+        self.assertEqual(self.client.cookies[settings.SESSION_COOKIE_NAME]["expires"], "")
         self.assertEqual(self.client.get(reverse("logout")).status_code, 405)
         self.assertRedirects(self.client.post(reverse("logout")), reverse("principal"))
         self.assertNotIn("_auth_user_id", self.client.session)
-        self.assertTrue(self.client.session.get_expire_at_browser_close())
         self.assertRedirects(self.client.get(reverse("gestion:panel")), reverse("login") + "?next=/gestion/")
 
     def test_perfiles_tienen_panel_y_permisos_distintos(self):
