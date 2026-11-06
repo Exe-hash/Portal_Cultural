@@ -73,6 +73,7 @@ class GestionPortalTest(TestCase):
 
     def test_administrador_crea_usuario_y_cambia_su_perfil(self):
         self.client.force_login(self.admin)
+        self.assertContains(self.client.get(reverse("gestion:usuarios_crear")), "Sin perfil asignado")
         crear = self.client.post(reverse("gestion:usuarios_crear"), {
             "username": "demo_supervisor", "first_name": "Cuenta", "last_name": "Demostración",
             "email": "cuenta@example.com", "password1": "secreto-demo-2984!",
@@ -91,6 +92,15 @@ class GestionPortalTest(TestCase):
         self.assertRedirects(editar, reverse("gestion:usuarios"))
         self.assertEqual(list(usuario.groups.values_list("name", flat=True)), [ADMINISTRATIVO])
         self.assertEqual(self.client.get(reverse("gestion:usuarios_editar", args=[self.admin.pk])).status_code, 403)
+
+        crear_sin_perfil = self.client.post(reverse("gestion:usuarios_crear"), {
+            "username": "cuenta_sin_perfil", "first_name": "Cuenta", "last_name": "Sin perfil",
+            "email": "sin-perfil@example.com", "password1": "secreto-demo-2984!",
+            "password2": "secreto-demo-2984!", "perfil": "",
+        })
+        self.assertRedirects(crear_sin_perfil, reverse("gestion:usuarios"))
+        cuenta_sin_perfil = User.objects.get(username="cuenta_sin_perfil")
+        self.assertFalse(cuenta_sin_perfil.groups.filter(name__in=(ADMINISTRADOR, SUPERVISOR, ADMINISTRATIVO)).exists())
 
     def test_administrador_elimina_usuario_sin_reservas(self):
         self.client.force_login(self.admin)

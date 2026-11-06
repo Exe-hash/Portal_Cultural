@@ -44,7 +44,10 @@ class RegistroUsuarioForm(UserCreationForm):
 
 
 class CrearUsuarioGestionForm(RegistroUsuarioForm):
-    perfil = forms.ChoiceField(choices=[(perfil, perfil) for perfil in PERFILES])
+    perfil = forms.ChoiceField(
+        choices=[("", "Sin perfil asignado")] + [(perfil, perfil) for perfil in PERFILES],
+        required=False,
+    )
 
 
 class EditarUsuarioGestionForm(forms.ModelForm):
